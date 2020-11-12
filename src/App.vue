@@ -1,13 +1,26 @@
 <template>
   <div class="main">
     <button @click="show = !show">切り替え</button>
-    <br><br>
+    <br>
+    
+    <button @click="add">追加</button>
+    <ul style="width: 200px; margin: auto;">
+      <transition-group name="fade" tag="div">
+      <li 
+        style="cursor: pointer;"
+        v-for="(number, index) in numbers"
+        :key="number"
+        @click="remove(index)"
+      >{{ number }}</li>
+      </transition-group>
+    </ul>
+
+    <br>
 
     <transition
       :css="false"
       @before-enter="beforeEnter"
       @enter="enter"
-
       @leave="leave"
     >
       <div class="circle" v-if="show"></div>
@@ -42,6 +55,8 @@ import ComponentB from './components/ComponentB.vue';
 export default {
   data() {
     return {
+      numbers: [0, 1, 2],
+      nextNumber: 3,
       show: true,
       myComponent: 'ComponentA'
     };
@@ -51,6 +66,18 @@ export default {
     ComponentB
   },
   methods: {
+
+      randomIndex() {
+        return Math.floor(Math.random() * this.numbers.length);
+      },
+
+      add() {
+        this.numbers.splice(this.randomIndex(), 0, this.nextNumber);
+      },
+
+      remove(index) {
+        this.numbers.splice(index, 1);
+      },
 
       //el...DOM操作
       //done()...JavaScriptのアニメーションが終わったことをVue.jsに教える関数,非同期の時によく使う
@@ -100,6 +127,12 @@ export default {
     background-color: pink;
   }
 
+  /* transformは何かを動かすもの */
+  .fade-move {
+    transition: transform 1s;
+  }
+
+
   /* 現れる時の最初の状態 */
   .fade-enter {
     opacity: 0;
@@ -107,7 +140,7 @@ export default {
 
   /* 現れる時のトランジション状態 */
   .fade-enter-active {
-    transition: opacity 0.5s;
+    transition: opacity 1s;
   }
 
   /* 現れる時の最後の状態 */
@@ -122,7 +155,8 @@ export default {
 
   /* 消える時のトランジションの状態 */
   .fade-leave-active {
-    transition: opacity 0.5s;
+    transition: opacity 1s;
+    position: absolute;
   }
 
   /* 消える時の最後の状態 */
