@@ -13,12 +13,21 @@
         exact
         class="link"
         >Users</router-link>
+        <button @click="increment(2)">+1</button>
+        <button @click="decrement(2)">-1</button>
     </nav>
 </template>
 
 <script>
+//import { mapMutations } from 'vuex';
+import { mapActions } from 'vuex';
+
 export default {
   props: ['id'],
+  methods: {
+    ...mapActions('count', ['increment', 'decrement']),
+    //...mapMutations(['increment', 'decrement'])
+  }
 }
 </script>
 

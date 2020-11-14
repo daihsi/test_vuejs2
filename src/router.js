@@ -44,10 +44,6 @@ export default new Router({
         { path: 'profile', component: UsersProfile, name: 'users-id-profile'}
       ]
     },
-    {
-      path: '/hello',
-      redirect: '/'
-    }
   ],
   scrollBehavior() {
     return {
